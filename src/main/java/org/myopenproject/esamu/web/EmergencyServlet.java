@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/EmergencyServlet")
+@WebServlet("/emergency")
 public class EmergencyServlet extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(EmergencyServlet.class.getName());
 	private static final long serialVersionUID = 1L;
@@ -22,13 +22,17 @@ public class EmergencyServlet extends HttpServlet {
 			actionParam = "index";
 		
 		try {
-			Class<?> clazz = Class.forName(getClass().getPackage() + "." + actionParam + "Action");
-			Action action = (Action) clazz.newInstance();
-			action.execute(req, resp);
+			getActionInstance(actionParam).execute(req, resp);
 			LOG.fine("Request for action: " + actionParam);
 		} catch (ReflectiveOperationException e) {
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Action \"" + actionParam + "\" not found.");
 			LOG.warning("Nonexistent action: " + actionParam);
 		}
+	}
+	
+	private Action getActionInstance(String actionParam) throws ReflectiveOperationException {
+		String packageName = getClass().getPackage().getName(); 
+		String className = actionParam.substring(0, 1).toUpperCase() + actionParam.substring(1) + "Action";
+		return (Action) Class.forName(packageName + "." + className).newInstance();
 	}
 }

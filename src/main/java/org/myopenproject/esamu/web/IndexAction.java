@@ -19,14 +19,8 @@ public class IndexAction implements Action {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		try (EmergencyDao eDao = new EmergencyDao()) {
-			List<Emergency> pendent = eDao.findByStatus(Status.PENDENT);
-			List<Emergency> progress = eDao.findByStatus(Status.PROGRESS);
-			List<Emergency> finished = eDao.findByStatus(Status.FINISHED);
-			List<Emergency> canceled = eDao.findByStatus(Status.CANCELED);
+			List<Emergency> pendent = eDao.summary(Status.PENDENT);
 			req.setAttribute("pendent", pendent);
-			req.setAttribute("progress", progress);
-			req.setAttribute("finished", finished);
-			req.setAttribute("canceled", canceled);
 			req.getRequestDispatcher("index.jsp").forward(req, res);
 		} catch (Exception e) {
 			res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

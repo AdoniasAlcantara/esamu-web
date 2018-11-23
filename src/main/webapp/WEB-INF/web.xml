@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
-  <display-name>e-SAMU</display-name>
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
-  <context-param>
-    <param-name>resources-dir</param-name>
-    <param-value>/img</param-value>
-  </context-param>
-  <context-param>
-    <param-name>firebase-credentials</param-name>
-    <param-value>WEB-INF/esamu-firebase-admin.json</param-value>
-  </context-param>
-  <servlet>
-    <servlet-name>Jersey REST Service</servlet-name>
-    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-    <init-param>
-      <param-name>javax.ws.rs.Application</param-name>
-      <param-value>org.myopenproject.esamu.web.service.EsamuApplication</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Jersey REST Service</servlet-name>
-    <url-pattern>/service/*</url-pattern>
-  </servlet-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+	
+	<display-name>e-SAMU</display-name>
+	
+	<context-param>
+		<param-name>resources-dir</param-name>
+		<param-value>/img</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>firebase-credentials</param-name>
+		<param-value>WEB-INF/esamu-firebase-admin.json</param-value>
+	</context-param>
+	
+	<servlet>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>org.myopenproject.esamu.web.service.EsamuApplication</param-value>
+		</init-param>
+		
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<url-pattern>/service/*</url-pattern>
+	</servlet-mapping>
+	
 </web-app>
