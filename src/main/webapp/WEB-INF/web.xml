@@ -16,6 +16,20 @@
 		<param-value>WEB-INF/esamu-firebase-admin.json</param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>onesignal-url</param-name>
+		<param-value>https://onesignal.com/api/v1/notifications</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>onesignal-key</param-name>
+		<param-value>6f881cd1-d4f9-4aa6-b9b7-fda2181060a9</param-value>
+	</context-param>
+	
+	<welcome-file-list>
+		<welcome-file>emergency</welcome-file>
+	</welcome-file-list>
+	
 	<servlet>
 		<servlet-name>Jersey REST Service</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>

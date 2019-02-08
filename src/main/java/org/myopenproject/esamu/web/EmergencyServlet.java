@@ -9,10 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/emergency")
+@WebServlet("/emergency/*")
 public class EmergencyServlet extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(EmergencyServlet.class.getName());
 	private static final long serialVersionUID = 1L;
+	
+	@Override
+	public void init() throws ServletException {
+		NotificationService.setUrl(getServletContext().getInitParameter("onesignal-url"));
+		NotificationService.setApiKey(getServletContext().getInitParameter("onesignal-key"));
+	}
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,6 +28,8 @@ public class EmergencyServlet extends HttpServlet {
 			actionParam = "index";
 		
 		try {
+			req.setAttribute("root", getServletContext().getContextPath());
+			req.setAttribute("pages", "/WEB-INF/jsp/");
 			getActionInstance(actionParam).execute(req, resp);
 			LOG.fine("Request for action: " + actionParam);
 		} catch (ReflectiveOperationException e) {

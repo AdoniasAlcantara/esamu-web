@@ -54,7 +54,7 @@ public class Init implements ServletContextListener {
 			FirebaseApp.initializeApp(options);
 		} catch (IOException e) {
 			LOG.log(Level.WARNING, "Cannot load Firebase. Some features will be unavailable", e);
-		}		
+		}
 	}
 
 	@Override

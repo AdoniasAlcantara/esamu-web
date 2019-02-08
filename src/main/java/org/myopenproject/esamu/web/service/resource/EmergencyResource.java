@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import javax.validation.ConstraintViolation;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -37,6 +38,7 @@ import com.google.firebase.auth.UserRecord;
 @Path("/")
 public class EmergencyResource {
 	private static final Logger LOG = Logger.getLogger(EmergencyResource.class.getName());
+	private static long lastEmergency = System.currentTimeMillis();
 	
 	@Context
 	private UriInfo info;
@@ -76,7 +78,7 @@ public class EmergencyResource {
 			throw new AuthException("User must authenticate the phone number before signing up. ID " + userDto.getId());
 		}
 		
-		// Send proper response		
+		// Send response		
 		ResponseDto resp = new ResponseDto();
 		resp.setStatusCode(Response.Status.CREATED.getStatusCode());
 		resp.setDescription("User added successfully. Id " + userDto.getId());
@@ -129,6 +131,7 @@ public class EmergencyResource {
 			eDao.save(emergency);
 		}
 		
+		refreshLastEmergency();
 		// TODO send notification to user
 		
 		// Response
@@ -137,6 +140,16 @@ public class EmergencyResource {
 		resp.setDescription("Emergency has been reported " + emergency.getId());
 		resp.addDetail("resource", info.getAbsolutePath().toString() + "/" + emergency.getId());
 		resp.addDetail("key", Long.toString(emergency.getId()));
+		resp.addDetail("timestamp", Long.toString(emergency.getStart().getTime()));
 		return ResponseUtil.wrap(resp);
+	}
+	
+	@GET @Path("/last")
+	public String last() {
+		return Long.toString(lastEmergency);
+	}
+	
+	private synchronized static void refreshLastEmergency() {
+		lastEmergency = System.currentTimeMillis();
 	}
 }

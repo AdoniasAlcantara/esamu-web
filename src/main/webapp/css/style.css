@@ -1,0 +1,61 @@
+.btn-primary,
+.nav-pills>.nav-item>a[class~=active] {
+    background-color: #6666ff;
+}
+
+.btn-primary {
+    border-color: #6666ff;
+}
+
+.btn-primary:hover {
+    background-color: #4d4dff;
+    border-color: #4d4dff;
+}
+
+.btn-primary:active {
+    background-color: #3333ff !important;
+    border-color: #3333ff !important;
+}
+
+.nav-pills>.nav-item>a {
+    color: #6666ff;
+    border-color: #6666ff !important;
+}
+
+.table>thead th,
+.modal-header,
+.card>.card-header {
+    background-color: #ccccff;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: normal;
+}
+
+.table>thead th {
+    font-size: 1.2rem;
+}
+
+.table-striped>tbody>tr:nth-child(even) {
+    background-color: #e6e6ff;
+}
+
+.table-striped>tbody>tr:nth-child(odd) {
+    background-color: #f5f5ff;
+}
+
+.table-striped>tbody>tr:hover {
+    cursor: pointer;
+    background-color: #8080ff;
+    color: white;
+}
+
+.table-striped>tbody>tr:hover .text-primary,
+.table-striped>tbody>tr:hover .text-warning,
+.table-striped>tbody>tr:hover .text-dark,
+.table-striped>tbody>tr:hover .text-muted {
+    color: white !important;
+}
+
+.clickable {
+    cursor: pointer;
+}
