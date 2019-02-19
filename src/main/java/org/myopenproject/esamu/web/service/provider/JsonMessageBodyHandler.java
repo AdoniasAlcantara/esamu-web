@@ -81,7 +81,8 @@ public class JsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
 			else
 				jsonType = genericType;
 			
-			getGson().toJson(object, jsonType, writer);
+			Gson gson = getGson();
+			gson.toJson(object, jsonType, writer);
 		}catch (IOException e) {
 			LOG.log(Level.WARNING, "Cannot write object.", e);
 		}

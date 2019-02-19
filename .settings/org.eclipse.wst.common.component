@@ -10,6 +10,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/esamu-web/target/classes"/>
-        <property name="context-root" value="esamu"/>
+        <property name="context-root" value="esamu-web"/>
     </wb-module>
 </project-modules>

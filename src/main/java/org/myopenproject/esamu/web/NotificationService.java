@@ -32,28 +32,26 @@ public class NotificationService {
 		this.emergency = emergency;
 	}
 	
-	public void notifyAccepted(Map<String, Object> attachment) {
-		NotificationDto notification = new NotificationDto();
-		notification.setAppId(apiKey);
-		notification.setUserId(new String[] {emergency.getUser().getNotificationKey()});
-		notification.setData(attachment);
-		HashMap<String, String> message = new HashMap<>();
-		message.put("en", "O resgate está a caminho. Chegaremos em breve.");
-		notification.setMessage(message);
+	public void notifyMessage(String title, String msg) {
+		NotificationDto notification = prepare();
 		
-		Response response = target.request(MediaType.APPLICATION_JSON)
-				.post(Entity.entity(notification, MediaType.APPLICATION_JSON), Response.class);
+		if (title != null) {
+			HashMap<String, String> titleMap = new HashMap<>();
+			titleMap.put("en", title);
+			notification.setTitle(titleMap);
+		}
 		
-		LOG.info("Response for Notification ID " + emergency.getUser().getNotificationKey() 
-				+ ": " + response.getStatus() + "; " + response.readEntity(String.class));
+		HashMap<String, String> msgMap = new HashMap<>();
+		msgMap.put("en", msg);
+		notification.setMessage(msgMap);
+		
+		push(notification);
 	}
 	
-	public void notifyCanceled() {
-		
-	}
-	
-	public void notifyFinished() {
-		
+	public void notifyWithTemplate(String template) {
+		NotificationDto notification = prepare();
+		notification.setTemplate(template);
+		push(notification);
 	}
 	
 	public static void setUrl(String url) {
@@ -62,5 +60,41 @@ public class NotificationService {
 	
 	public static void setApiKey(String apiKey) {
 		NotificationService.apiKey = apiKey;
+	}
+	
+	private NotificationDto prepare() {
+		NotificationDto notification = new NotificationDto();
+		notification.setAppId(apiKey);
+		notification.setUserId(new String[] {emergency.getUser().getNotificationKey()});
+		
+		HashMap<String, String> data = new HashMap<>();
+		data.put("status", Integer.toString(emergency.getStatus().ordinal()));
+		data.put("emergency_id", Long.toString(emergency.getId()));
+		
+		if (emergency.getAttachment() >= 0) {
+			data.put("attach", Integer.toString(emergency.getAttachment()));
+			HashMap<String, String> action = new HashMap<>();
+			action.put("id", "1");
+			action.put("text", "Ver primeiros socorros");
+			@SuppressWarnings("unchecked")
+			Map<String, String>[] array = (Map<String, String>[]) new Map[1];
+			array[0] = action;
+			notification.setAction(array);
+		}
+		
+		notification.setData(data);		
+		return notification;
+	}
+	
+	private void push(NotificationDto notification) {
+		try {
+			Response response = target.request(MediaType.APPLICATION_JSON)
+					.post(Entity.entity(notification, MediaType.APPLICATION_JSON), Response.class);
+			
+			LOG.info("Response: notification ID " + emergency.getUser().getNotificationKey() 
+				+ ": " + response.getStatus() + "; " + response.readEntity(String.class));
+		} catch (RuntimeException e) {
+			LOG.warning("Failed to send notification. Notification ID " + emergency.getUser().getNotificationKey());
+		}
 	}
 }

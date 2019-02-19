@@ -2,7 +2,6 @@ package org.myopenproject.esamu.web;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -62,9 +61,6 @@ public class IndexAction implements Action {
 			req.setAttribute("active", active);
 			
 			req.getRequestDispatcher(req.getAttribute("pages") + "index.jsp").forward(req, res);
-		} catch (Exception e) {
-			res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			LOG.log(Level.SEVERE, "Internal error", e);
 		}
 	}
 }

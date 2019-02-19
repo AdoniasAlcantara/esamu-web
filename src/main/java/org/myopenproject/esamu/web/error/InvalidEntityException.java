@@ -8,13 +8,13 @@ import javax.validation.ConstraintViolation;
 
 public class InvalidEntityException extends ApplicationException {
 	private static final long serialVersionUID = -5603230100889468974L;
-	private Map<String, Object> details;
+	private Map<String, String> details;
 	
 	public InvalidEntityException(String message) {
 		this(message, null);
 	}
 	
-	public InvalidEntityException(String message, Map<String, Object> details) {
+	public InvalidEntityException(String message, Map<String, String> details) {
 		super(422, message, null);
 		this.details = details;
 	}
@@ -28,7 +28,7 @@ public class InvalidEntityException extends ApplicationException {
 	}
 	
 	@Override
-	public Map<String, Object> getDetails() {		
+	public Map<String, String> getDetails() {		
 		return details;
 	}
 }

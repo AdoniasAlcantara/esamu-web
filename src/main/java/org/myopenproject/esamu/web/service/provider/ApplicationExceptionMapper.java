@@ -23,7 +23,7 @@ public class ApplicationExceptionMapper implements ExceptionMapper<ApplicationEx
 		resp.setDescription(exception.getMessage());
 		resp.setDetails(exception.getDetails());
 		
-		Map<String, Object> details = exception.getDetails();
+		Map<String, String> details = exception.getDetails();
 		LOG.log(Level.WARNING, exception.getMessage() + (details != null ? ": " + details : ""));
 		
 		return ResponseUtil.wrap(resp);

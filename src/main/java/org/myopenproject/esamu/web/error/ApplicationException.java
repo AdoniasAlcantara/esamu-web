@@ -15,7 +15,7 @@ public class ApplicationException extends RuntimeException {
 		return code;
 	}
 	
-	public Map<String, Object> getDetails() {
+	public Map<String, String> getDetails() {
 		return null;
 	}
 }

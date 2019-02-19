@@ -31,11 +31,14 @@ public class EmergencyServlet extends HttpServlet {
 			req.setAttribute("root", getServletContext().getContextPath());
 			req.setAttribute("pages", "/WEB-INF/jsp/");
 			getActionInstance(actionParam).execute(req, resp);
-			LOG.fine("Request for action: " + actionParam);
+			LOG.info("Request for action: " + actionParam);
 		} catch (ReflectiveOperationException e) {
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Action \"" + actionParam + "\" not found.");
 			LOG.warning("Nonexistent action: " + actionParam);
-		}
+		} /*catch (Throwable e) {
+			//resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		//	LOG.log(Level.SEVERE, "Internal error", e);
+		}*/
 	}
 	
 	private Action getActionInstance(String actionParam) throws ReflectiveOperationException {

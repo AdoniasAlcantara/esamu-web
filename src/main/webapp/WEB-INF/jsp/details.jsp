@@ -107,29 +107,61 @@
 
                 <div class="row mt-4">
 
-                    <div class="col-md-8 mb-3 mb-md-0">
-                        <img class="img-fluid rounded clickable" data-toggle="modal" data-target="#modalImg" src="img/picture.jpg" alt="Imagem da emergÃªncia">
+                    <div class="col-md-8 mb-3 mb-md-0 text-center">
+                        <img class="img-fluid rounded clickable" data-toggle="modal" data-target="#modalImg" src="img/${emergency.id}.jpg" alt="Imagem da emergÃªncia">
                         <p class="text-muted" style="text-align: center; margin: 0;">Clique na imagem para ampliar</p>
                     </div>
 
                     <div class="col-md-4">
                         <div class="card bg-light">
                             <div class="card-body">
-
-                                <a href="#" class="card-link" data-toggle="modal" data-target="#modalAttach">Anexar procedimento</a>
-                                <p id="textAttach" class="text-muted">Nenhum procedimento selecionado.</p><br>
-                                <p class="card-text">Deseja confirmar a ocorrência?</p>
+                            
+                            <c:choose>
+                            	
+                            	<c:when test="${emergency.status == 'PENDENT'}">
+                            		<a href="#" class="card-link" data-toggle="modal" data-target="#modalAttach">Anexar procedimento</a>
+                                	<p id="textAttach" class="text-muted">Nenhum procedimento selecionado.</p><br>
+                                	<p class="card-text">Deseja confirmar a ocorrência?</p>
+                                	
+                                	<c:set var="negativeButtonValue" value="canceled"/>
+                                	<c:set var="negativeButtonText" value="Recusar"/>
+                                	<c:set var="display" value="d-inline-block"/>
+                                	
+                                	<c:set var="positiveButtonValue" value="progress"/>
+                                	<c:set var="positiveButtonText" value="Confirmar"/>
+                            	</c:when>
+                            	
+                            	<c:when test="${emergency.status == 'PROGRESS'}">
+                            		<p class="card-text">Clique em "Concluir" para encerrar a ocorrência.</p>
+                            		
+                            		<c:set var="negativeButtonValue" value="canceled"/>
+                                	<c:set var="negativeButtonText" value="Anular"/>
+                                	<c:set var="display" value="d-inline-block"/>
+                                	
+                                	<c:set var="positiveButtonValue" value="finished"/>
+                                	<c:set var="positiveButtonText" value="Concluir"/>
+                            	</c:when>
+                            	
+                            	<c:when test="${emergency.status == 'CANCELED' || emergency.status == 'FINISHED'}">
+                            		<p class="card-text">A ocorrência ficará disponível na aba "Ativas" com status "PENDENTE" caso deseja reabrí-la.</p>
+                            		
+                     				<c:set var="positiveButtonValue" value="pendent"/>
+                                	<c:set var="positiveButtonText" value="Reabrir"/>
+                                	<c:set var="display" value="d-none"/>
+                            	</c:when>
+                            
+                            </c:choose>
 
                                 <form action="emergency?action=update&id=${emergency.id}" method="post" class="text-center">
 
                                     <div class="form-row">
 
-                                        <div class="col-lg-5 mb-2 mb-lg-0">
-                                            <button name="status" type="submit" value="canceled" class="btn btn-secondary btn-block">Recusar</button>
+                                        <div class="col-lg-5 mb-2 mb-lg-0 ${display}">
+                                            <button name="status" type="submit" value="${negativeButtonValue}" class="btn btn-secondary btn-block">${negativeButtonText}</button>
                                         </div>
 
                                         <div class="col-lg-7">
-                                            <button name="status" type="submit" value="progress" class="btn btn-primary btn-block">Confirmar</button>
+                                            <button name="status" type="submit" value="${positiveButtonValue}" class="btn btn-primary btn-block">${positiveButtonText}</button>
                                         </div>
 
                                     </div>
@@ -175,7 +207,7 @@
 
                 </div>
 
-                <img src="img/picture.jpg" alt="Imagem da emergÃªncia" style="width:100%">
+                <img src="img/${emergency.id}.jpg" alt="Imagem da emergÃªncia" style="width:100%">
 
             </div>
         </div>
@@ -220,7 +252,7 @@
 
                         <div class="col-md-6">
                             <p class="text-muted text-center mb-2">Pré-visualização</p>
-                            <img id="imgPreview" class="img-fluid" src="img/picture.jpg">
+                            <img id="imgPreview" class="img-fluid" src="img/attach-0.png">
                         </div>
 
                     </div>
@@ -246,7 +278,7 @@
         }
 
         function changeImgPreview(imgUrl) {
-            $("#imgPreview").attr("src", "img/attach-" + imgUrl + ".jpg");
+            $("#imgPreview").attr("src", "img/attach-" + imgUrl + ".png");
         }
 
         var latLng = {

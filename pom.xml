@@ -92,6 +92,13 @@
 			<version>1.2</version>
 		</dependency>
 
+		<!-- Geocoder -->
+		<dependency>
+			<groupId>com.google.maps</groupId>
+			<artifactId>google-maps-services</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
