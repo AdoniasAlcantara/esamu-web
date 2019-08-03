@@ -1,4 +1,4 @@
-package org.myopenproject.esamu.web;
+package org.myopenproject.esamu.web.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,9 +12,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
-import org.myopenproject.esamu.common.NotificationDto;
-import org.myopenproject.esamu.data.Emergency;
-import org.myopenproject.esamu.web.service.provider.JsonMessageBodyHandler;
+import org.myopenproject.esamu.data.model.Emergency;
+import org.myopenproject.esamu.web.dto.NotificationDto;
+import org.myopenproject.esamu.web.provider.JsonMessageBodyHandler;
 
 public class NotificationService {
 	private static final Logger LOG = Logger.getLogger(NotificationService.class.getName());
@@ -73,13 +73,15 @@ public class NotificationService {
 		
 		if (emergency.getAttachment() >= 0) {
 			data.put("attach", Integer.toString(emergency.getAttachment()));
+			
 			HashMap<String, String> action = new HashMap<>();
 			action.put("id", "1");
 			action.put("text", "Ver primeiros socorros");
+			
 			@SuppressWarnings("unchecked")
 			Map<String, String>[] array = (Map<String, String>[]) new Map[1];
 			array[0] = action;
-			notification.setAction(array);
+			notification.setActions(array);
 		}
 		
 		notification.setData(data);		
@@ -88,7 +90,8 @@ public class NotificationService {
 	
 	private void push(NotificationDto notification) {
 		try {
-			Response response = target.request(MediaType.APPLICATION_JSON)
+			Response response = target
+					.request(MediaType.APPLICATION_JSON)
 					.post(Entity.entity(notification, MediaType.APPLICATION_JSON), Response.class);
 			
 			LOG.info("Response: notification ID " + emergency.getUser().getNotificationKey() 

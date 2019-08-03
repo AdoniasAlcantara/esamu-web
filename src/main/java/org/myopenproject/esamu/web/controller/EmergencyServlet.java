@@ -1,4 +1,4 @@
-package org.myopenproject.esamu.web;
+package org.myopenproject.esamu.web.controller;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -24,8 +24,9 @@ public class EmergencyServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String actionParam = req.getParameter("action");
 		
-		if (actionParam == null)
-			actionParam = "index";
+		if (actionParam == null) {
+			actionParam = "index";			
+		}
 		
 		try {
 			req.setAttribute("root", getServletContext().getContextPath());
@@ -35,10 +36,7 @@ public class EmergencyServlet extends HttpServlet {
 		} catch (ReflectiveOperationException e) {
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Action \"" + actionParam + "\" not found.");
 			LOG.warning("Nonexistent action: " + actionParam);
-		} /*catch (Throwable e) {
-			//resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		//	LOG.log(Level.SEVERE, "Internal error", e);
-		}*/
+		}
 	}
 	
 	private Action getActionInstance(String actionParam) throws ReflectiveOperationException {

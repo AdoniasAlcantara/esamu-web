@@ -1,4 +1,4 @@
-package org.myopenproject.esamu.web.service.provider;
+package org.myopenproject.esamu.web.provider;
 
 import java.util.Map;
 import java.util.logging.Level;
@@ -8,9 +8,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.myopenproject.esamu.common.ResponseDto;
+import org.myopenproject.esamu.web.dto.ResponseDto;
 import org.myopenproject.esamu.web.error.ApplicationException;
-import org.myopenproject.esamu.web.service.ResponseUtil;
+import org.myopenproject.esamu.web.util.ResponseUtil;
 
 @Provider
 public class ApplicationExceptionMapper implements ExceptionMapper<ApplicationException> {

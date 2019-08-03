@@ -135,7 +135,7 @@
 			var currentTime = new Date().getTime();
 			window.setInterval(function () {
 				$.ajax({
-					url: "service/last",
+					url: "api/emergencies/last",
 					type: "GET",
 					success: function (result) {
 						last = Number(result);

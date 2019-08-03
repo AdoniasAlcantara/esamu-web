@@ -1,9 +1,9 @@
-package org.myopenproject.esamu.web.service;
+package org.myopenproject.esamu.web.util;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.myopenproject.esamu.common.ResponseDto;
+import org.myopenproject.esamu.web.dto.ResponseDto;
 
 public class ResponseUtil {
 	private ResponseUtil() {}

@@ -1,4 +1,4 @@
-package org.myopenproject.esamu.web;
+package org.myopenproject.esamu.web.controller;
 
 import java.io.IOException;
 

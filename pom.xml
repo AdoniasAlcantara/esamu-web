@@ -30,13 +30,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- e-SAMU modules -->
-		<dependency>
-			<groupId>org.myopenproject</groupId>
-			<artifactId>esamu-common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.myopenproject</groupId>
 			<artifactId>esamu-data</artifactId>
@@ -75,7 +68,7 @@
 		<dependency>
 			<groupId>com.google.firebase</groupId>
 			<artifactId>firebase-admin</artifactId>
-			<version>6.5.0</version>
+			<version>6.8.1</version>
 		</dependency>
 
 		<dependency>

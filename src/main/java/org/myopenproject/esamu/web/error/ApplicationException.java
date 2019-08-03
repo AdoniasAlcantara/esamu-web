@@ -3,7 +3,7 @@ package org.myopenproject.esamu.web.error;
 import java.util.Map;
 
 public class ApplicationException extends RuntimeException {
-	private static final long serialVersionUID = -2517627432942500640L;
+	private static final long serialVersionUID = 1L;
 	private int code;
 	
 	public ApplicationException(int code, String message, Throwable exception) {

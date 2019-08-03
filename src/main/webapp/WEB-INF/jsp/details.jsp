@@ -108,7 +108,7 @@
                 <div class="row mt-4">
 
                     <div class="col-md-8 mb-3 mb-md-0 text-center">
-                        <img class="img-fluid rounded clickable" data-toggle="modal" data-target="#modalImg" src="img/${emergency.id}.jpg" alt="Imagem da emergÃªncia">
+                        <img class="img-fluid rounded clickable" data-toggle="modal" data-target="#modalImg" src="img/res/${emergency.id}.jpg" alt="Imagem da emergÃªncia">
                         <p class="text-muted" style="text-align: center; margin: 0;">Clique na imagem para ampliar</p>
                     </div>
 
@@ -207,7 +207,7 @@
 
                 </div>
 
-                <img src="img/${emergency.id}.jpg" alt="Imagem da emergÃªncia" style="width:100%">
+                <img src="img/res/${emergency.id}.jpg" alt="Imagem da emergÃªncia" style="width:100%">
 
             </div>
         </div>
@@ -285,6 +285,7 @@
             lat: ${emergency.location.latitude},
             lng: ${emergency.location.longitude}
         };
+        
         var marker;
         var map;
 

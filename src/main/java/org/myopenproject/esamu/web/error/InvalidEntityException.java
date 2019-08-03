@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 
 public class InvalidEntityException extends ApplicationException {
-	private static final long serialVersionUID = -5603230100889468974L;
+	private static final long serialVersionUID = 1L;
 	private Map<String, String> details;
 	
 	public InvalidEntityException(String message) {
@@ -23,8 +23,9 @@ public class InvalidEntityException extends ApplicationException {
 		super(422, "Entity doesn't meet constraints", null);
 		details = new HashMap<>();
 		
-		for (ConstraintViolation<?> cv : violations)
-			details.put(cv.getPropertyPath().toString(), cv.getMessage());
+		for (ConstraintViolation<?> cv : violations) {
+			details.put(cv.getPropertyPath().toString(), cv.getMessage());			
+		}
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package org.myopenproject.esamu.web.service.provider;
+package org.myopenproject.esamu.web.provider;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,9 +19,11 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import com.google.gson.FieldNamingPolicy;
+import org.myopenproject.esamu.web.error.InvalidEntityException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 @Provider
 @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -38,23 +40,26 @@ public class JsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
 
 	@Override
 	public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType,
-			MultivaluedMap<String, String> httpHeaders, InputStream entityStream) 
-	{
+			MultivaluedMap<String, String> httpHeaders, InputStream entityStream) {
 		Object obj = null;
-		
-		try (InputStreamReader streamReader = new InputStreamReader(entityStream, UTF_8)) {			
+
+		try (InputStreamReader streamReader = new InputStreamReader(entityStream, UTF_8)) {
 			Type jsonType;
-			
-			if (type.equals(genericType))
+
+			if (type.equals(genericType)) {
 				jsonType = type;
-			else
+			} else {
 				jsonType = genericType;
-			
+			}
+
 			obj = getGson().fromJson(streamReader, jsonType);
+		} catch (JsonSyntaxException e) {
+			LOG.log(Level.WARNING, "JSON syntax error", e);
+			throw new InvalidEntityException("JSON Syntax Error");
 		} catch (IOException e) {
 			LOG.log(Level.WARNING, "Cannot read object.", e);
 		}
-		
+
 		return obj;
 	}
 
@@ -69,35 +74,34 @@ public class JsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
 	}
 
 	@Override
-	public void writeTo(Object object, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, 
-			MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) 
-			throws IOException, WebApplicationException 
-	{
+	public void writeTo(Object object, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
+			MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
+			throws IOException, WebApplicationException {
 		try (OutputStreamWriter writer = new OutputStreamWriter(entityStream, UTF_8)) {
 			Type jsonType;
-			
+
 			if (type.equals(genericType))
 				jsonType = type;
 			else
 				jsonType = genericType;
-			
+
 			Gson gson = getGson();
 			gson.toJson(object, jsonType, writer);
-		}catch (IOException e) {
+		} catch (IOException e) {
 			LOG.log(Level.WARNING, "Cannot write object.", e);
 		}
 	}
-	
+
 	private Gson getGson() {
 		if (gson == null) {
 			final GsonBuilder gsonBuilder = new GsonBuilder();
-			gson = gsonBuilder.disableHtmlEscaping()
-					.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+			gson = gsonBuilder
+					.disableHtmlEscaping()
 					.setPrettyPrinting()
 					.serializeNulls()
 					.create();
 		}
-		
+
 		return gson;
 	}
 }

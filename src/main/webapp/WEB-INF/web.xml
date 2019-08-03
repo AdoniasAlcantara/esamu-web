@@ -8,12 +8,17 @@
 	
 	<context-param>
 		<param-name>resources-dir</param-name>
-		<param-value>/img</param-value>
+		<param-value>/img/res</param-value>
 	</context-param>
 	
 	<context-param>
 		<param-name>firebase-credentials</param-name>
 		<param-value>WEB-INF/esamu-firebase-admin.json</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>firebase-url</param-name>
+		<param-value>https://esamu-218510.firebaseio.com</param-value>
 	</context-param>
 	
 	<context-param>
@@ -36,7 +41,7 @@
 		
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>org.myopenproject.esamu.web.service.EsamuApplication</param-value>
+			<param-value>org.myopenproject.esamu.web.config.EsamuApplication</param-value>
 		</init-param>
 		
 		<load-on-startup>1</load-on-startup>
@@ -44,7 +49,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>Jersey REST Service</servlet-name>
-		<url-pattern>/service/*</url-pattern>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 	
 </web-app>
